@@ -1,0 +1,31 @@
+name: Supply Chain Security Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  sbom-process:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 소스코드 내려받기
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. SBOM 생성 (Syft 도구 사용)
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: sbom.json
+
+      # 3. Dependency-Track으로 전송 (취약점 분석 요청)
+      - name: Upload to Dependency-Track
+        uses: DependencyTrack/gh-upload-sbom@v1.0.0
+        with:
+          serverHostname: ${{ secrets.DTRACK_URL }}
+          apiKey: ${{ secrets.DTRACK_KEY }}
+          projectTypes: library
+          autoCreate: true
+          bomFilename: sbom.json
