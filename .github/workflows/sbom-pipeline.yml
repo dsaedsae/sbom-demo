@@ -26,6 +26,7 @@ jobs:
         with:
           serverHostname: ${{ secrets.DTRACK_URL }}
           apiKey: ${{ secrets.DTRACK_KEY }}
-          projectTypes: library
-          autoCreate: true
+          autoCreate: true       # 프로젝트가 없으면 자동 생성
           bomFilename: sbom.json
+          projectName: sbom-demo  # <-- 여기 추가됨
+          projectVersion: 1.0.0   # <-- 여기 추가됨
