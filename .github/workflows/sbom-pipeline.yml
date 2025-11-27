@@ -42,3 +42,23 @@ jobs:
           bomFilename: sbom.json
           projectName: sbom-demo
           projectVersion: 1.0.0
+
+      # 4. 실패 시 알림 (빨간색)
+      - name: Slack Notification (Fail)
+        uses: rtCamp/action-slack-notify@v2
+        if: failure()   #  앞 단계(Trivy)가 실패했을 때만 실행
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: '#ff0000'
+          SLACK_TITLE: ' 보안 규정 위반!'
+          SLACK_MESSAGE: '치명적인 취약점이 발견되어 배포가 차단되었습니다.'
+
+      # 5. 성공 시 알림 (초록색)
+      - name: Slack Notification (Success)
+        uses: rtCamp/action-slack-notify@v2
+        if: success()   #  모든 단계가 성공했을 때만 실행
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: '#36a64f'
+          SLACK_TITLE: ' 보안 검사 통과'
+          SLACK_MESSAGE: '안전한 코드가 확인되어 SBOM이 업로드되었습니다.'
