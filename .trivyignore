@@ -1,0 +1,2 @@
+# Django 2.2.0 SQL Injection (Legacy 호환성 이슈로 예외 처리 - 승인자: 보안팀)
+CVE-2019-14234

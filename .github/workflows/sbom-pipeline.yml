@@ -28,6 +28,7 @@ jobs:
           scan-ref: '.'
           format: 'table'
           exit-code: '1'           #  중요: 취약점 발견 시 에러(1) 발생 -> 파이프라인 중단
+          trivyignores: .trivyignore
           ignore-unfixed: true     # 패치 없는 건 일단 무시 (선택사항)
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH' # Critical, High 등급만 차단
